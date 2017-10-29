@@ -170,7 +170,7 @@ over and over per type of data we want to use.
 We defined a simple Location view earlier, but now we want it to use our model
 to output some data from the database. Take a look at my sample view here:
 
-https://gist.github.com/dllh/72a6165122d487e4b229f0db4334bdb2
+https://github.com/dllh/c9_yii/blob/master/basic/views/site/locations.php
 
 I've left comments in the view that explain what all it does. If you use this
 in place of the simpler view we created above and load the page again, you 
@@ -206,7 +206,7 @@ function in our controller matches the file name we use when creating the view.
 Duplicating the view isn't enough -- we need to edit it now to let us limit
 what it displays. Here's my view for showing a single location:
 
-https://gist.github.com/dllh/ff7a9aeccb12cba588e38a640280126e
+https://github.com/dllh/c9_yii/blob/master/basic/views/site/one-location.php
 
 Now we want to make the location listing page link to the new view.
 
@@ -248,8 +248,6 @@ user-submitted data.
 
 ## Using a Database for Authentication
 
-** This section is in progress **
-
 Let's use an existing library: 
 https://github.com/dektrium/yii2-user/blob/master/docs/README.md
 
@@ -285,27 +283,3 @@ join to other tables should you decide to save any user-specific data. So for
 example, if you were to want to save location data for a given user, you would
 map the location id to the user id. We'll get to that in more detail later if 
 needed.
-
-
----
-
-http://www.yiiframework.com/doc-2.0/guide-security-authentication.html
-
-CREATE TABLE `users` (
-  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) DEFAULT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `email` varchar(200) DEFAULT NULL,
-  `auth_key` varchar(100) DEFAULT NULL,
-  `access_token` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `username` (`username`),
-  KEY `username_index` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
-
-insert into users values( null, 'admin', 'admin', 'foo', 'bar' );
-
-See the updated User.php model
-
-TODO: User registration
