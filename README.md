@@ -135,7 +135,7 @@ will be very simple to start.
 Under the models directory, make a file named Location.php and populate it 
 like so:
 
-    <?php
+    ```<?php
     
     namespace app\models;
     use yii\db\ActiveRecord;
@@ -148,7 +148,7 @@ like so:
             return '{{locations}}';
         }
     
-    }
+    }```
 
 Models can be a lot more complex than this, but for now, we're just telling our
 app that we want to define a model for a specific type of data and we're telling
@@ -213,7 +213,7 @@ Now we want to make the location listing page link to the new view.
 I've done this by editing the "city" line in the locations view to look like
 this:
 
-<td><a href="<?php echo Url::toRoute( [ 'location', 'id' => $location->id ] ); ?>"><?php echo Html::encode( $location->city ); ?></a></td>
+```<td><a href="<?php echo Url::toRoute( [ 'location', 'id' => $location->id ] ); ?>"><?php echo Html::encode( $location->city ); ?></a></td>```
 
 Note that I also added this near the top of the file, to load the Url helper
 function that I'm using to define the route that the link uses:
