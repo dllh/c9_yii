@@ -15,10 +15,6 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            //'enableAutoLogin' => true,
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -47,6 +43,12 @@ $config = [
             ],
         ],
         */
+    ],
+    'modules' => [
+      'user' => [
+            'class' => 'dektrium\user\Module',
+            'enableConfirmation' => false,
+        ],
     ],
     'params' => $params,
 ];

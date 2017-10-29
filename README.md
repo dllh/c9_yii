@@ -250,16 +250,59 @@ user-submitted data.
 
 ** This section is in progress **
 
+Let's use an existing library: 
+https://github.com/dektrium/yii2-user/blob/master/docs/README.md
+
+To set it up, in the terminal, do these two things:
+
+    composer require dektrium/yii2-user
+    php yii migrate/up --migrationPath=@vendor/dektrium/yii2-user/migrations
+
+The first downloads the module into your web app and the second sets up the
+database tables required to handle authentication.
+
+To enable the new authentication module, edit config/web.php to remove the
+'components => user' section and to add this new property:
+
+    'modules' => [
+      'user' => [
+            'class' => 'dektrium\user\Module',
+            'enableConfirmation' => false,
+        ],
+    ],
+
+Note that we've disabled email confirmation, which is tricky on Cloud9.
+
+Now let's hook our main view into the new login pages that this module adds.
+Edit views/layouts/main and update the relevant bits like so:
+
+    ['label' => 'Login', 'url' => ['/user/security/login']]
+    ['label' => 'Logout', 'url' => ['/user/security/logout']]
+
+Now you've got full login ability, with a few new user tables added. The one
+you'll be most interested in going forward is likely to be `user`, which you'll
+join to other tables should you decide to save any user-specific data. So for 
+example, if you were to want to save location data for a given user, you would
+map the location id to the user id. We'll get to that in more detail later if 
+needed.
+
+
+---
+
 http://www.yiiframework.com/doc-2.0/guide-security-authentication.html
 
-CREATE TABLE users( 
-    id int(10) unsigned zerofill not null primary key auto_increment, 
-    username varchar(100), 
-    password varchar(100), 
-    authKey varchar(100), 
-    accessToken varchar(100), 
-    INDEX username_index( username )
-);
+CREATE TABLE `users` (
+  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `auth_key` varchar(100) DEFAULT NULL,
+  `access_token` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `username` (`username`),
+  KEY `username_index` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
 
 insert into users values( null, 'admin', 'admin', 'foo', 'bar' );
 
