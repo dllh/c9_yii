@@ -132,7 +132,7 @@ will be very simple to start.
 
 ## Our First Model
 
-Under the models directory, make a file named Location.php and populate it 
+Under the models directory, make a file named [Location.php](https://github.com/dllh/c9_yii/blob/master/basic/models/Location.php) and populate it 
 like so:
 
     ```<?php
