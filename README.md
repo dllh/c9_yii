@@ -251,7 +251,10 @@ user-submitted data.
 Let's use an existing library: 
 https://github.com/dektrium/yii2-user/blob/master/docs/README.md
 
-To set it up, in the terminal, do these two things:
+To set it up, in the terminal, do these two things (make sure you are in the 
+directory that contains all your site files -- if you used the steps above to
+set your site up, this'll be named `basic`. Else the files that this process
+downloads will be in the wrong place and your database won't be created.
 
     composer require dektrium/yii2-user
     php yii migrate/up --migrationPath=@vendor/dektrium/yii2-user/migrations
@@ -283,3 +286,30 @@ join to other tables should you decide to save any user-specific data. So for
 example, if you were to want to save location data for a given user, you would
 map the location id to the user id. We'll get to that in more detail later if 
 needed.
+
+--------------------------------------------------------------------------------
+
+## Using the Materialize Framework
+
+Start [here](https://github.com/MacGyer/yii2-materializecss). Basic steps
+within your site directory (probably named `basic` if you followed the site 
+setup above) follow. In the terminal:
+
+    composer global require "fxp/composer-asset-plugin:~1.2"
+    
+Now open composer.js and add this line as a new array item in the `require` key:
+
+    "macgyer/yii2-materializecss": "*"
+
+Back in the terminal, run this:
+
+    composer update
+    
+This installs some files needed to integrate Materialize into your Yii site.
+
+Finally, update `assets/AppAsset.php` to add this line to the $depends array:
+
+    'macgyer\yii2materializecss\assets\MaterializeAsset'
+    
+Now if you load your site, it'll have a more Materializey look, and a number
+of Materialize components will be available to you. More docs [here](https://github.com/MacGyer/yii2-materializecss).
