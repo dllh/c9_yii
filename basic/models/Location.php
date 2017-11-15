@@ -10,5 +10,13 @@ class Location extends ActiveRecord
     {
         return '{{locations}}';
     }
+    
+    public function rules()
+    {
+        return [
+            // the name, email, subject and body attributes are required
+            [['city', 'state', 'zip', ], 'required'],
+        ];
+    }
 
 }

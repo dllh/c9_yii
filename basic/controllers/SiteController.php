@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Location;
 
 class SiteController extends Controller
 {
@@ -131,6 +132,26 @@ class SiteController extends Controller
     
     public function actionLocation()
     {
-        return $this->render('one-location');
+     
+        $post = Yii::$app->request->post();
+        $get = Yii::$app->request->get();
+        
+        // If we have an id in our POST, find the record.
+        if ( isset( $post['Location']['id'] ) ) {
+            $model = Location::findOne( $post['Location']['id'] );
+            // TODO: Maybe we should restrict editing to admins or at least logged in users!
+            if ( $model->load( $post )  && $model->save() ) {
+                // Set a variable that our template can use to know that it should display a success message.
+                Yii::$app->session->setFlash( 'locationFormSubmitted' );
+            }
+        } else {
+            // Else look for the record by the id in the GET.
+            // TODO: What if we get an invalid id or can't find a record?
+            $model = Location::findOne( $get['id'] );
+        }
+        
+        return $this->render('one-location', [
+            'model' => $model,
+        ]);
     }
 }
