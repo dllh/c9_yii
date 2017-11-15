@@ -168,9 +168,7 @@ over and over per type of data we want to use.
 ## Updating our View
 
 We defined a simple Location view earlier, but now we want it to use our model
-to output some data from the database. Take a look at my sample view here:
-
-https://github.com/dllh/c9_yii/blob/master/basic/views/site/locations.php
+to output some data from the database. Take a look at my sample view [here](https://github.com/dllh/c9_yii/commit/79def7d2dee32c2ec9132fad0e0df950af5e835b#diff-bec7f5bf51271dc149c861a56a5c819a).
 
 I've left comments in the view that explain what all it does. If you use this
 in place of the simpler view we created above and load the page again, you 
@@ -204,9 +202,7 @@ Next we'll duplicate views/site/locations.php and name it one-location.php. We
 can name these whatever we like, as long as the parameter passed to the render()
 function in our controller matches the file name we use when creating the view.
 Duplicating the view isn't enough -- we need to edit it now to let us limit
-what it displays. Here's my view for showing a single location:
-
-https://github.com/dllh/c9_yii/blob/master/basic/views/site/one-location.php
+what it displays. [Here's](https://github.com/dllh/c9_yii/commit/79def7d2dee32c2ec9132fad0e0df950af5e835b#diff-110bc0def42ccadde647bd78e780e8e1) my view for showing a single location.
 
 Now we want to make the location listing page link to the new view.
 
@@ -243,6 +239,42 @@ Next topics to explore include using more complex data structures (e.g. mapping
 location data to user ids, and moving authentication data into a database 
 rather than having that model be a static data array) and collecting and storing
 user-submitted data.
+
+--------------------------------------------------------------------------------
+
+## Saving a Model
+
+You might want not merely to list data, but actually to save changes to it.
+This requires a couple of steps. For one, we need to update our controller so 
+that it knows how to get and save info about the model. [Here's](https://github.com/dllh/c9_yii/commit/e4e90a7a83d655d5f9206a814df2e98d415af671#diff-d50f7ecbede1ea9d64c6297b2fe716aa) my update.
+
+Note that the model code is a little finicky about how you instantiate its
+object -- if you instantiate a `new` Location model, you'll run into difficulty
+saving the data. So I look for data in the HTTP POST and if found, I find the
+existing model using that id. Else I look for the model using the id in the HTTP
+GET data. Once I've got the model, I can save or just populate the $model object,
+which I then pass along to the view for rendering.
+
+Second, we need to update our view to add form fields instead of just displaying
+the model's data. My change looks like [this](https://github.com/dllh/c9_yii/commit/e4e90a7a83d655d5f9206a814df2e98d415af671#diff-110bc0def42ccadde647bd78e780e8e1).
+
+Of course, this is terrible in practice! With that change, anybody can come 
+in and edit any old location, with no authentication and very little validation.
+Ideally, we would probably show the form only for admins and show a read-only
+view for others. Or we would have the form in an explicit admin area. So this
+is a first iteration that we'd want to build on in the future. :)
+
+In the view changes, I introduce Yii's `ActiveForm` API, which saves us some
+hassle around building forms. The API also has some security features built in
+to help safeguard against what are called CSRF exploits. These are moot given
+our own lax security so far, but it's nice to know that there's some built in
+security here to back us up once we tighten our own security.
+
+Also of note in this set of changes, I've [added](https://github.com/dllh/c9_yii/commit/e4e90a7a83d655d5f9206a814df2e98d415af671#diff-8aef38d2ae87d638b3cc61f6ecedd664) some very light data validation
+to my model. This integrates smoothly with Yii's built-in form validation, 
+so if you try submitting blank data, you'll see a nice form error, for example.
+You can do more complex validation (right now we're checking only for existence
+of form fields).
 
 --------------------------------------------------------------------------------
 
@@ -297,7 +329,7 @@ setup above) follow. In the terminal:
 
     composer global require "fxp/composer-asset-plugin:~1.2"
     
-Now open composer.js and add this line as a new array item in the `require` key:
+Now open composer.json and add this line as a new array item in the `require` key:
 
     "macgyer/yii2-materializecss": "*"
 
